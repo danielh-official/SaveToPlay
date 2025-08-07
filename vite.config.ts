@@ -43,47 +43,5 @@ export default defineConfig({
       origin: [/chrome-extension:\/\//],
     },
   },
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    silent: true,
-    setupFiles: ['./__tests__/setup.ts'],
-    coverage: {
-      provider: 'v8',
-      reporter: ['text', 'json', 'html', 'lcov', 'cobertura'],
-      exclude: [
-        // Ignore configuration files
-        'manifest.config.ts',
-        'postcss.config.js',
-        'tailwind.config.js',
-        'vite.config.ts',
-        'tsconfig.json',
-        'package.json',
-        'package-lock.json',
-        'index.html',
-        '.prettierrc',
-        '.prettierignore',
-        '.gitignore',
-        // Ignore entry points that don't need testing
-        'src/main.ts',
-        // Ignore test files themselves
-        '**/*.test.ts',
-        '**/*.test.js',
-        '**/__tests__/**',
-        // Ignore build artifacts
-        'dist/**',
-        'coverage/**',
-        'node_modules/**',
-        // Ignore other non-source files
-        'public/**',
-        'release/**',
-      ],
-      include: [
-        // Focus on Vue components and source files
-        'src/**/*.vue',
-        'src/**/*.ts',
-        'src/**/*.js',
-      ],
-    },
-  },
+
 });

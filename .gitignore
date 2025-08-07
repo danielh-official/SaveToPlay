@@ -43,3 +43,5 @@ temp/
 *.pem
 
 release/
+playwright-report/
+test-results/

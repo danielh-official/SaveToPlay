@@ -84,7 +84,7 @@ SaveToPlay/
 │   ├── background.ts            # Service worker (background script)
 │   ├── content-script.ts        # YouTube page integration
 │   └── main.ts                  # Vue app entry point
-├── __tests__/                   # Test files
+├── __tests__/                   # Unit test files
 │   ├── components/              # Component tests
 │   │   └── App.test.ts          # App.vue component tests
 │   ├── services/                # Service tests
@@ -93,6 +93,13 @@ SaveToPlay/
 │   ├── background.test.ts       # Background script tests
 │   ├── content-script.test.ts   # Content script tests
 │   └── setup.ts                 # Test configuration
+├── __playwright__/              # Browser test files
+│   ├── helpers/                 # Test helper functions
+│   │   └── youtube-helpers.ts   # YouTube testing utilities
+│   ├── extension-basic.spec.ts  # Basic extension functionality tests
+│   ├── youtube-integration.spec.ts # YouTube integration tests
+│   ├── global-setup.ts          # Playwright global setup
+│   └── README.md                # Browser testing documentation
 ├── docs/                        # Documentation
 │   ├── shortcut.md              # Apple Shortcut setup guide
 │   ├── privacy.md               # Privacy policy
