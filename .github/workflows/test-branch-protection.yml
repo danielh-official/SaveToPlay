@@ -1,0 +1,63 @@
+name: Test Branch Protection Rules
+
+on:
+  workflow_dispatch:  # Manual trigger only
+  schedule:
+    # Run every day at 2 AM UTC to test protection rules
+    - cron: '0 2 * * *'
+
+jobs:
+  test-branch-protection:
+    name: Test Direct Commit to Main
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Create test file
+        run: |
+          echo "# Branch Protection Test - $(date)" >> test-branch-protection.md
+          echo "This file was created to test branch protection rules." >> test-branch-protection.md
+          echo "If you see this file, the protection rules may not be working correctly." >> test-branch-protection.md
+      
+      - name: Attempt direct commit to main
+        id: attempt-commit
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add test-branch-protection.md
+          git commit -m "Test: Attempting direct commit to main branch"
+          git push origin main
+        continue-on-error: true
+      
+      - name: Check if commit was blocked
+        id: check-result
+        run: |
+          if [ "${{ steps.attempt-commit.outcome }}" == "failure" ]; then
+            echo "result=BLOCKED" >> $GITHUB_OUTPUT
+            echo "✅ Branch protection working correctly - direct commit was blocked"
+          else
+            echo "result=ALLOWED" >> $GITHUB_OUTPUT
+            echo "❌ WARNING: Branch protection may not be working - direct commit succeeded"
+          fi
+      
+      - name: Cleanup test file
+        if: always()
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git reset --hard HEAD~1 || true
+          git push origin main --force || true
+      
+      - name: Report result
+        run: |
+          if [ "${{ steps.check-result.outputs.result }}" == "BLOCKED" ]; then
+            echo "🎉 Branch protection test PASSED - direct commits to main are properly restricted"
+          else
+            echo "⚠️  Branch protection test FAILED - direct commits to main were allowed"
+            exit 1
+          fi
