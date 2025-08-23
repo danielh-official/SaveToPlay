@@ -908,35 +908,6 @@ function createPlaylistSaveAllButton(): HTMLElement {
     position: relative !important;
   `;
 
-  // Add click handler to save to local database after opening Play
-  link.addEventListener('click', async () => {
-    console.log('SaveToPlay: Bulk saving', videoInfos.length, 'videos to Play');
-
-    // Save all videos to local database
-    for (const videoInfo of videoInfos) {
-      try {
-        await saveToLocalDatabase(videoInfo);
-      } catch (error) {
-        console.error(
-          'SaveToPlay: Error saving video to database:',
-          videoInfo.id,
-          error
-        );
-      }
-    }
-
-    // Show success message
-    showNotification(
-      `Bulk save initiated for ${videoInfos.length} videos to Play`,
-      'success'
-    );
-
-    // Update playlist stats after a short delay
-    setTimeout(() => {
-      updatePlaylistStats();
-    }, 1000);
-  });
-
   console.log('SaveToPlay: Link created with HTML:', link.outerHTML);
   return link;
 }
