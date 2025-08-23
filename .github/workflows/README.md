@@ -24,11 +24,13 @@ This workflow tests your branch protection rules by attempting to commit directl
 ### Expected behavior:
 
 ✅ **If branch protection is working correctly:**
+
 - The workflow will fail at the "Attempt direct commit to main" step
 - You'll see "Branch protection test PASSED" in the logs
 - No test file will be created on main
 
 ❌ **If branch protection is NOT working:**
+
 - The workflow will succeed and create a test file on main
 - You'll see "Branch protection test FAILED" in the logs
 - The test file will be created and then cleaned up
